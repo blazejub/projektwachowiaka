@@ -1,23 +1,29 @@
-import logo from './logo.svg';
 import './App.css';
-
+import React,{useState} from 'react';
+import InputForm from './components/InputForm';
+import Result from './components/Result';
+import ClickedButton from './components/ClickedButton';
 function App() {
+  const [brutto,setBrutto] = useState('');
+  const [podatek,setPodatek] = useState(18);
+  const [netto,setNetto] = useState('');
+
+  function handleInputChange(e){
+    const {name,value} = e.target;
+    name === 'brutto' ? setBrutto(value) : setPodatek(parseInt(value));
+  }
+
+  function handleButtonClick(){
+    const netto=(brutto*(1-podatek/100)).toFixed(2);
+    setNetto(netto);
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Kalkulator wypłaty </h1>
+      <InputForm handleInputChange={handleInputChange}/>
+      <Result netto={netto}></Result>
+      <ClickedButton handleButtonClick={handleButtonClick}></ClickedButton>
     </div>
   );
 }
